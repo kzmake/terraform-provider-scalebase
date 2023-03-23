@@ -4,7 +4,7 @@ SHELL = /bin/bash
 all: pre fmt lint
 
 .PHONY: pre
-pre:
+pre: gen
 	go mod tidy
 
 .PHONY: fmt
@@ -14,3 +14,7 @@ fmt:
 .PHONY: lint
 lint:
 	golangci-lint run
+
+.PHONY: gen
+gen:
+	go generate ./...
