@@ -1,10 +1,10 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: pre fmt lint
+all: pre fmt lint build install
 
 .PHONY: pre
-pre: gen
+pre:
 	go mod tidy
 
 .PHONY: fmt
@@ -18,3 +18,11 @@ lint:
 .PHONY: gen
 gen:
 	go generate ./...
+
+.PHONY: build
+build:
+	go build -ldflags="-s -w" -trimpath -o terraform-provider-scalebase
+
+.PHONY: install
+install:
+	go install .
