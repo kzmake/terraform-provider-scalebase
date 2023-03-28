@@ -23,7 +23,9 @@ func New() provider.Provider {
 	return &scalebaseProvider{}
 }
 
-type scalebaseProvider struct {
+type scalebaseProvider struct{}
+
+type scalebaseProviderModel struct {
 	Host  types.String `tfsdk:"host"`
 	Token types.String `tfsdk:"token"`
 }
@@ -47,7 +49,7 @@ func (p *scalebaseProvider) Schema(_ context.Context, _ provider.SchemaRequest, 
 }
 
 func (p *scalebaseProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	var config scalebaseProvider
+	var config scalebaseProviderModel
 	diags := req.Config.Get(ctx, &config)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
