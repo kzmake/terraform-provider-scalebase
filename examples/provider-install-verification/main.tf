@@ -9,7 +9,7 @@ terraform {
 provider "scalebase" {}
 
 data "scalebase_customer" "example" {
-  optional_id = "hoge"
+  optional_id = "test"
 }
 
 output "example_customer" {
