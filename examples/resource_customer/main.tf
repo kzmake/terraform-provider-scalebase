@@ -8,10 +8,7 @@ terraform {
 
 provider "scalebase" {}
 
-data "scalebase_customer" "example" {
+resource "scalebase_customer" "example" {
   optional_id = "example"
-}
-
-output "example_customer" {
-  value = data.scalebase_customer.example
+  name        = "example"
 }
