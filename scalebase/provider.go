@@ -2,11 +2,14 @@ package scalebase
 
 import (
 	"context"
+	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	retryablehttp "github.com/hashicorp/go-retryablehttp"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -121,7 +124,13 @@ func (p *scalebaseProvider) Configure(ctx context.Context, req provider.Configur
 		return
 	}
 
-	r := httptransport.New(host, apiclient.DefaultBasePath, apiclient.DefaultSchemes)
+	retry := retryablehttp.NewClient()
+	retry.HTTPClient = http.DefaultClient // NOTE: for using httpmock
+	retry.RetryWaitMin = 0500 * time.Millisecond
+	retry.RetryWaitMax = 2000 * time.Second
+	retry.RetryMax = 5
+
+	r := httptransport.NewWithClient(host, apiclient.DefaultBasePath, apiclient.DefaultSchemes, retry.StandardClient())
 	r.DefaultAuthentication = httptransport.BearerToken(token)
 	client := apiclient.New(r, strfmt.Default)
 
