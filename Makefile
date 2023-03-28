@@ -9,6 +9,7 @@ pre:
 
 .PHONY: fmt
 fmt:
+	terraform fmt -recursive
 	go run golang.org/x/tools/cmd/goimports@latest -w .
 
 .PHONY: lint
@@ -25,7 +26,7 @@ build:
 
 .PHONY: install
 install:
-	go install .
+	go install -ldflags="-s -w" -trimpath .
 
 .PHONY: test
 test: test/unittest test-acctest
