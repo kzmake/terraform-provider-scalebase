@@ -26,3 +26,14 @@ build:
 .PHONY: install
 install:
 	go install .
+
+.PHONY: test
+test: test/unittest test-acctest
+
+.PHONY: test/unittest
+test/unittest:
+	SCALEBASE_HOST=localhost TF_ACC=false go test -v github.com/kzmake/terraform-provider-scalebase/scalebase/...
+
+.PHONY: test-acctest
+test-acctest:
+	SCALEBASE_HOST=${SCALEBASE_HOST} TF_ACC=true go test -v github.com/kzmake/terraform-provider-scalebase/scalebase/...
