@@ -30,12 +30,12 @@ type scalebaseProviderModel struct {
 	Token types.String `tfsdk:"token"`
 }
 
-func (p *scalebaseProvider) Metadata(_ context.Context, _ provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "scalebase"
+func (p *scalebaseProvider) Metadata(_ context.Context, _ provider.MetadataRequest, res *provider.MetadataResponse) {
+	res.TypeName = "scalebase"
 }
 
-func (p *scalebaseProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
-	resp.Schema = schema.Schema{
+func (p *scalebaseProvider) Schema(_ context.Context, _ provider.SchemaRequest, res *provider.SchemaResponse) {
+	res.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"host": schema.StringAttribute{
 				Optional: true,
@@ -48,16 +48,16 @@ func (p *scalebaseProvider) Schema(_ context.Context, _ provider.SchemaRequest, 
 	}
 }
 
-func (p *scalebaseProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+func (p *scalebaseProvider) Configure(ctx context.Context, req provider.ConfigureRequest, res *provider.ConfigureResponse) {
 	var config scalebaseProviderModel
 	diags := req.Config.Get(ctx, &config)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
+	res.Diagnostics.Append(diags...)
+	if res.Diagnostics.HasError() {
 		return
 	}
 
 	if config.Host.IsUnknown() {
-		resp.Diagnostics.AddAttributeError(
+		res.Diagnostics.AddAttributeError(
 			path.Root("host"),
 			"Unknown Scalebase API Host",
 			strings.Join([]string{
@@ -68,7 +68,7 @@ func (p *scalebaseProvider) Configure(ctx context.Context, req provider.Configur
 	}
 
 	if config.Token.IsUnknown() {
-		resp.Diagnostics.AddAttributeError(
+		res.Diagnostics.AddAttributeError(
 			path.Root("password"),
 			"Unknown Scalebase API Token",
 			strings.Join([]string{
@@ -78,7 +78,7 @@ func (p *scalebaseProvider) Configure(ctx context.Context, req provider.Configur
 		)
 	}
 
-	if resp.Diagnostics.HasError() {
+	if res.Diagnostics.HasError() {
 		return
 	}
 
@@ -94,7 +94,7 @@ func (p *scalebaseProvider) Configure(ctx context.Context, req provider.Configur
 	}
 
 	if host == "" {
-		resp.Diagnostics.AddAttributeError(
+		res.Diagnostics.AddAttributeError(
 			path.Root("host"),
 			"Missing Scalebase API Host",
 			strings.Join([]string{
@@ -106,7 +106,7 @@ func (p *scalebaseProvider) Configure(ctx context.Context, req provider.Configur
 	}
 
 	if token == "" {
-		resp.Diagnostics.AddAttributeError(
+		res.Diagnostics.AddAttributeError(
 			path.Root("token"),
 			"Missing Scalebase API Token",
 			strings.Join([]string{
@@ -117,7 +117,7 @@ func (p *scalebaseProvider) Configure(ctx context.Context, req provider.Configur
 		)
 	}
 
-	if resp.Diagnostics.HasError() {
+	if res.Diagnostics.HasError() {
 		return
 	}
 
@@ -125,12 +125,14 @@ func (p *scalebaseProvider) Configure(ctx context.Context, req provider.Configur
 	r.DefaultAuthentication = httptransport.BearerToken(token)
 	client := apiclient.New(r, strfmt.Default)
 
-	resp.DataSourceData = client
-	resp.ResourceData = client
+	res.DataSourceData = client
+	res.ResourceData = client
 }
 
 func (p *scalebaseProvider) DataSources(_ context.Context) []func() datasource.DataSource {
-	return nil
+	return []func() datasource.DataSource{
+		NewCustomerDataSource,
+	}
 }
 
 func (p *scalebaseProvider) Resources(_ context.Context) []func() resource.Resource {
