@@ -27,12 +27,6 @@ type customerDataSource struct {
 	client *apiclient.API
 }
 
-type customerModel struct {
-	ID         types.String `tfsdk:"id"`
-	OptionalID types.String `tfsdk:"optional_id"`
-	Name       types.String `tfsdk:"name"`
-}
-
 func (d *customerDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -64,9 +58,14 @@ func (d *customerDataSource) Schema(_ context.Context, _ datasource.SchemaReques
 func (d *customerDataSource) Read(ctx context.Context, req datasource.ReadRequest, res *datasource.ReadResponse) {
 	tflog.Debug(ctx, "Call api: GetCustomer")
 
-	target := new(customerModel)
-	req.Config.Get(ctx, target)
-	in := &models.V1GetCustomerRequest{OptionalID: target.OptionalID.ValueString()}
+	var config CustomerModel
+	diags := req.Config.Get(ctx, &config)
+	res.Diagnostics.Append(diags...)
+	if res.Diagnostics.HasError() {
+		return
+	}
+
+	in := &models.V1GetCustomerRequest{OptionalID: config.OptionalID.ValueString()}
 
 	tflog.Debug(ctx, "  request: "+spew.Sdump(in))
 
@@ -82,13 +81,14 @@ func (d *customerDataSource) Read(ctx context.Context, req datasource.ReadReques
 	tflog.Debug(ctx, "  response: "+spew.Sdump(out.Payload))
 
 	v := out.Payload.Customer
-	state := customerModel{
-		ID:         types.StringValue(v.ID),
+	state := CustomerModel{
 		OptionalID: types.StringValue(v.OptionalID),
-		Name:       types.StringValue(v.Name),
+
+		ID:   types.StringValue(v.ID),
+		Name: types.StringValue(v.Name),
 	}
 
-	diags := res.State.Set(ctx, &state)
+	diags = res.State.Set(ctx, &state)
 	res.Diagnostics.Append(diags...)
 	if res.Diagnostics.HasError() {
 		return
