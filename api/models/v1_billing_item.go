@@ -17,11 +17,23 @@ import (
 // swagger:model v1BillingItem
 type V1BillingItem struct {
 
-	// id
+	// 請求項目ID
 	ID string `json:"id,omitempty"`
 
-	// name
+	// 請求項目名
 	Name string `json:"name,omitempty"`
+
+	// 数量
+	Quantity string `json:"quantity,omitempty"`
+
+	// 小計
+	Subtotal float64 `json:"subtotal,omitempty"`
+
+	// 税率
+	TaxPercentage int32 `json:"taxPercentage,omitempty"`
+
+	// 単価
+	UnitPrice float64 `json:"unitPrice,omitempty"`
 }
 
 // Validate validates this v1 billing item

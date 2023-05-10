@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -18,6 +19,16 @@ import (
 //
 // swagger:model v1SearchBillingsRequest
 type V1SearchBillingsRequest struct {
+
+	// フィルター
+	Filter []*SearchBillingsRequestClause `json:"filter"`
+
+	// ソート条件
+	// example:
+	// ```
+	// { "orderBy": [ { "field": "FIELD_BILLING_DATE", "direction": "DIRECTION_DESCENDING" } ] }
+	// ```
+	OrderBy *V1SearchBillingsRequestOrder `json:"orderBy,omitempty"`
 
 	// 一覧取得する最大数
 	// Required: true
@@ -34,6 +45,14 @@ type V1SearchBillingsRequest struct {
 func (m *V1SearchBillingsRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateFilter(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateOrderBy(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validatePageSize(formats); err != nil {
 		res = append(res, err)
 	}
@@ -41,6 +60,51 @@ func (m *V1SearchBillingsRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1SearchBillingsRequest) validateFilter(formats strfmt.Registry) error {
+	if swag.IsZero(m.Filter) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Filter); i++ {
+		if swag.IsZero(m.Filter[i]) { // not required
+			continue
+		}
+
+		if m.Filter[i] != nil {
+			if err := m.Filter[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("filter" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("filter" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SearchBillingsRequest) validateOrderBy(formats strfmt.Registry) error {
+	if swag.IsZero(m.OrderBy) { // not required
+		return nil
+	}
+
+	if m.OrderBy != nil {
+		if err := m.OrderBy.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("orderBy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("orderBy")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -53,8 +117,57 @@ func (m *V1SearchBillingsRequest) validatePageSize(formats strfmt.Registry) erro
 	return nil
 }
 
-// ContextValidate validates this v1 search billings request based on context it is used
+// ContextValidate validate this v1 search billings request based on the context it is used
 func (m *V1SearchBillingsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateFilter(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateOrderBy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SearchBillingsRequest) contextValidateFilter(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Filter); i++ {
+
+		if m.Filter[i] != nil {
+			if err := m.Filter[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("filter" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("filter" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SearchBillingsRequest) contextValidateOrderBy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.OrderBy != nil {
+		if err := m.OrderBy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("orderBy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("orderBy")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

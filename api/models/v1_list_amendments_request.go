@@ -24,7 +24,7 @@ type V1ListAmendmentsRequest struct {
 	// ```
 	// { "orderBy": [ { "field": "FIELD_EXECUTE_DATE", "direction": "DIRECTION_DESCENDING" } ] }
 	// ```
-	OrderBy *ListAmendmentsRequestOrder `json:"orderBy,omitempty"`
+	OrderBy *V1ListAmendmentsRequestOrder `json:"orderBy,omitempty"`
 
 	// 一覧取得する最大数
 	// Required: true

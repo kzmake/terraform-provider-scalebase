@@ -30,6 +30,10 @@ type ClientOption func(*runtime.ClientOperation)
 type ClientService interface {
 	AmendmentServiceAddOptionItem(params *AmendmentServiceAddOptionItemParams, opts ...ClientOption) (*AmendmentServiceAddOptionItemOK, error)
 
+	AmendmentServiceChangeMainItem(params *AmendmentServiceChangeMainItemParams, opts ...ClientOption) (*AmendmentServiceChangeMainItemOK, error)
+
+	AmendmentServiceChangeQuantity(params *AmendmentServiceChangeQuantityParams, opts ...ClientOption) (*AmendmentServiceChangeQuantityOK, error)
+
 	AmendmentServiceListAmendments(params *AmendmentServiceListAmendmentsParams, opts ...ClientOption) (*AmendmentServiceListAmendmentsOK, error)
 
 	AmendmentServiceListAmendments2(params *AmendmentServiceListAmendments2Params, opts ...ClientOption) (*AmendmentServiceListAmendments2OK, error)
@@ -79,6 +83,84 @@ func (a *Client) AmendmentServiceAddOptionItem(params *AmendmentServiceAddOption
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*AmendmentServiceAddOptionItemDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+AmendmentServiceChangeMainItem メインアイテムの乗り換えs
+
+指定したメインアイテムに乗り換えます
+*/
+func (a *Client) AmendmentServiceChangeMainItem(params *AmendmentServiceChangeMainItemParams, opts ...ClientOption) (*AmendmentServiceChangeMainItemOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAmendmentServiceChangeMainItemParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "AmendmentService_ChangeMainItem",
+		Method:             "POST",
+		PathPattern:        "/v1/amendment/changemainitem",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &AmendmentServiceChangeMainItemReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AmendmentServiceChangeMainItemOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*AmendmentServiceChangeMainItemDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+AmendmentServiceChangeQuantity 契約アイテムの契約数の更新s
+
+指定した契約アイテムの契約数を更新します。
+*/
+func (a *Client) AmendmentServiceChangeQuantity(params *AmendmentServiceChangeQuantityParams, opts ...ClientOption) (*AmendmentServiceChangeQuantityOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAmendmentServiceChangeQuantityParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "AmendmentService_ChangeQuantity",
+		Method:             "POST",
+		PathPattern:        "/v1/amendment/changequantity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &AmendmentServiceChangeQuantityReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AmendmentServiceChangeQuantityOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*AmendmentServiceChangeQuantityDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

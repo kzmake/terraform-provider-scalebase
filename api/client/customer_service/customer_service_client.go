@@ -30,6 +30,8 @@ type ClientOption func(*runtime.ClientOperation)
 type ClientService interface {
 	CustomerServiceCreateCustomer(params *CustomerServiceCreateCustomerParams, opts ...ClientOption) (*CustomerServiceCreateCustomerOK, error)
 
+	CustomerServiceDeleteCustomer(params *CustomerServiceDeleteCustomerParams, opts ...ClientOption) (*CustomerServiceDeleteCustomerOK, error)
+
 	CustomerServiceGetCustomer(params *CustomerServiceGetCustomerParams, opts ...ClientOption) (*CustomerServiceGetCustomerOK, error)
 
 	CustomerServiceGetCustomer2(params *CustomerServiceGetCustomer2Params, opts ...ClientOption) (*CustomerServiceGetCustomer2OK, error)
@@ -37,6 +39,8 @@ type ClientService interface {
 	CustomerServiceListCustomers(params *CustomerServiceListCustomersParams, opts ...ClientOption) (*CustomerServiceListCustomersOK, error)
 
 	CustomerServiceListCustomers2(params *CustomerServiceListCustomers2Params, opts ...ClientOption) (*CustomerServiceListCustomers2OK, error)
+
+	CustomerServiceUpdateCustomer(params *CustomerServiceUpdateCustomerParams, opts ...ClientOption) (*CustomerServiceUpdateCustomerOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -77,6 +81,45 @@ func (a *Client) CustomerServiceCreateCustomer(params *CustomerServiceCreateCust
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*CustomerServiceCreateCustomerDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CustomerServiceDeleteCustomer 顧客の削除s
+
+顧客を更新します。
+*/
+func (a *Client) CustomerServiceDeleteCustomer(params *CustomerServiceDeleteCustomerParams, opts ...ClientOption) (*CustomerServiceDeleteCustomerOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCustomerServiceDeleteCustomerParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "CustomerService_DeleteCustomer",
+		Method:             "POST",
+		PathPattern:        "/v1/customer/delete",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CustomerServiceDeleteCustomerReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CustomerServiceDeleteCustomerOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CustomerServiceDeleteCustomerDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -233,6 +276,45 @@ func (a *Client) CustomerServiceListCustomers2(params *CustomerServiceListCustom
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*CustomerServiceListCustomers2Default)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CustomerServiceUpdateCustomer 顧客の更新s
+
+顧客を更新します。
+*/
+func (a *Client) CustomerServiceUpdateCustomer(params *CustomerServiceUpdateCustomerParams, opts ...ClientOption) (*CustomerServiceUpdateCustomerOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCustomerServiceUpdateCustomerParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "CustomerService_UpdateCustomer",
+		Method:             "PATCH",
+		PathPattern:        "/v1/customer/update",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CustomerServiceUpdateCustomerReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CustomerServiceUpdateCustomerOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CustomerServiceUpdateCustomerDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

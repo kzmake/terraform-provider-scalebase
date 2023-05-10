@@ -24,7 +24,7 @@ type V1ContractItem struct {
 	ChargeItems []*V1ContractChargeItem `json:"chargeItems"`
 
 	// 基本契約期間
-	DefaultContractTerm *ContractItemTerm `json:"defaultContractTerm,omitempty"`
+	DefaultContractTerm *V1ContractItemTerm `json:"defaultContractTerm,omitempty"`
 
 	// 契約終了日(RFC 3339 format)
 	// Format: date-time

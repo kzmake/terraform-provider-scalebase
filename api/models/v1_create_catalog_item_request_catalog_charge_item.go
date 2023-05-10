@@ -31,7 +31,7 @@ type V1CreateCatalogItemRequestCatalogChargeItem struct {
 	BillingTiming *CreateCatalogItemRequestCatalogChargeItemTiming `json:"billingTiming,omitempty"`
 
 	// 終了月日割持設定
-	EndDailyRate *CatalogChargeItemDailyRate `json:"endDailyRate,omitempty"`
+	EndDailyRate *CreateCatalogItemRequestCatalogChargeItemDailyRate `json:"endDailyRate,omitempty"`
 
 	// 課金項目名
 	Name string `json:"name,omitempty"`
@@ -46,7 +46,7 @@ type V1CreateCatalogItemRequestCatalogChargeItem struct {
 	Scale int32 `json:"scale,omitempty"`
 
 	// 開始月日割持設定
-	StartDailyRate *CatalogChargeItemDailyRate `json:"startDailyRate,omitempty"`
+	StartDailyRate *CreateCatalogItemRequestCatalogChargeItemDailyRate `json:"startDailyRate,omitempty"`
 
 	// 課金項目タイプ
 	Type CreateCatalogItemRequestCatalogChargeItemType `json:"type,omitempty"`

@@ -62,6 +62,20 @@ BillingServiceSearchBillings2Params contains all the parameters to send to the A
 */
 type BillingServiceSearchBillings2Params struct {
 
+	/* OrderByDirection.
+
+	     - DIRECTION_ASCENDING: 昇順
+	- DIRECTION_DESCENDING: 降順
+	*/
+	OrderByDirection *string
+
+	/* OrderByField.
+
+	     - FIELD_ID: 請求ID
+	- FIELD_BILLING_DATE: 請求日
+	*/
+	OrderByField *string
+
 	/* PageSize.
 
 	   一覧取得する最大数
@@ -160,6 +174,28 @@ func (o *BillingServiceSearchBillings2Params) SetHTTPClient(client *http.Client)
 	o.HTTPClient = client
 }
 
+// WithOrderByDirection adds the orderByDirection to the billing service search billings2 params
+func (o *BillingServiceSearchBillings2Params) WithOrderByDirection(orderByDirection *string) *BillingServiceSearchBillings2Params {
+	o.SetOrderByDirection(orderByDirection)
+	return o
+}
+
+// SetOrderByDirection adds the orderByDirection to the billing service search billings2 params
+func (o *BillingServiceSearchBillings2Params) SetOrderByDirection(orderByDirection *string) {
+	o.OrderByDirection = orderByDirection
+}
+
+// WithOrderByField adds the orderByField to the billing service search billings2 params
+func (o *BillingServiceSearchBillings2Params) WithOrderByField(orderByField *string) *BillingServiceSearchBillings2Params {
+	o.SetOrderByField(orderByField)
+	return o
+}
+
+// SetOrderByField adds the orderByField to the billing service search billings2 params
+func (o *BillingServiceSearchBillings2Params) SetOrderByField(orderByField *string) {
+	o.OrderByField = orderByField
+}
+
 // WithPageSize adds the pageSize to the billing service search billings2 params
 func (o *BillingServiceSearchBillings2Params) WithPageSize(pageSize int32) *BillingServiceSearchBillings2Params {
 	o.SetPageSize(pageSize)
@@ -200,6 +236,40 @@ func (o *BillingServiceSearchBillings2Params) WriteToRequest(r runtime.ClientReq
 		return err
 	}
 	var res []error
+
+	if o.OrderByDirection != nil {
+
+		// query param orderBy.direction
+		var qrOrderByDirection string
+
+		if o.OrderByDirection != nil {
+			qrOrderByDirection = *o.OrderByDirection
+		}
+		qOrderByDirection := qrOrderByDirection
+		if qOrderByDirection != "" {
+
+			if err := r.SetQueryParam("orderBy.direction", qOrderByDirection); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.OrderByField != nil {
+
+		// query param orderBy.field
+		var qrOrderByField string
+
+		if o.OrderByField != nil {
+			qrOrderByField = *o.OrderByField
+		}
+		qOrderByField := qrOrderByField
+		if qOrderByField != "" {
+
+			if err := r.SetQueryParam("orderBy.field", qOrderByField); err != nil {
+				return err
+			}
+		}
+	}
 
 	// query param pageSize
 	qrPageSize := o.PageSize

@@ -30,6 +30,12 @@ type ClientOption func(*runtime.ClientOperation)
 type ClientService interface {
 	CustomerStaffServiceCreateCustomerStaff(params *CustomerStaffServiceCreateCustomerStaffParams, opts ...ClientOption) (*CustomerStaffServiceCreateCustomerStaffOK, error)
 
+	CustomerStaffServiceDeleteCustomerStaff(params *CustomerStaffServiceDeleteCustomerStaffParams, opts ...ClientOption) (*CustomerStaffServiceDeleteCustomerStaffOK, error)
+
+	CustomerStaffServiceGetCustomerStaff(params *CustomerStaffServiceGetCustomerStaffParams, opts ...ClientOption) (*CustomerStaffServiceGetCustomerStaffOK, error)
+
+	CustomerStaffServiceGetCustomerStaff2(params *CustomerStaffServiceGetCustomerStaff2Params, opts ...ClientOption) (*CustomerStaffServiceGetCustomerStaff2OK, error)
+
 	SetTransport(transport runtime.ClientTransport)
 }
 
@@ -69,6 +75,123 @@ func (a *Client) CustomerStaffServiceCreateCustomerStaff(params *CustomerStaffSe
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*CustomerStaffServiceCreateCustomerStaffDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CustomerStaffServiceDeleteCustomerStaff 顧客の削除s
+
+顧客を更新します。
+*/
+func (a *Client) CustomerStaffServiceDeleteCustomerStaff(params *CustomerStaffServiceDeleteCustomerStaffParams, opts ...ClientOption) (*CustomerStaffServiceDeleteCustomerStaffOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCustomerStaffServiceDeleteCustomerStaffParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "CustomerStaffService_DeleteCustomerStaff",
+		Method:             "POST",
+		PathPattern:        "/v1/customerstaff/delete",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CustomerStaffServiceDeleteCustomerStaffReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CustomerStaffServiceDeleteCustomerStaffOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CustomerStaffServiceDeleteCustomerStaffDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CustomerStaffServiceGetCustomerStaff 顧客担当者の取得s
+
+顧客担当者を取得します。
+*/
+func (a *Client) CustomerStaffServiceGetCustomerStaff(params *CustomerStaffServiceGetCustomerStaffParams, opts ...ClientOption) (*CustomerStaffServiceGetCustomerStaffOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCustomerStaffServiceGetCustomerStaffParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "CustomerStaffService_GetCustomerStaff",
+		Method:             "POST",
+		PathPattern:        "/v1/customerstaff/get",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CustomerStaffServiceGetCustomerStaffReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CustomerStaffServiceGetCustomerStaffOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CustomerStaffServiceGetCustomerStaffDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CustomerStaffServiceGetCustomerStaff2 顧客担当者の取得s
+
+顧客担当者を取得します。
+*/
+func (a *Client) CustomerStaffServiceGetCustomerStaff2(params *CustomerStaffServiceGetCustomerStaff2Params, opts ...ClientOption) (*CustomerStaffServiceGetCustomerStaff2OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCustomerStaffServiceGetCustomerStaff2Params()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "CustomerStaffService_GetCustomerStaff2",
+		Method:             "GET",
+		PathPattern:        "/v1/customerstaff/get",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CustomerStaffServiceGetCustomerStaff2Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CustomerStaffServiceGetCustomerStaff2OK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CustomerStaffServiceGetCustomerStaff2Default)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

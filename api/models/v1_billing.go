@@ -23,6 +23,14 @@ type V1Billing struct {
 	// 請求先の顧客顧客担当者
 	BillingCustomerStaffs []*V1BillingCustomerStaff `json:"billingCustomerStaffs"`
 
+	// 請求日(RFC 3339 format)
+	// Format: date-time
+	BillingDate strfmt.DateTime `json:"billingDate,omitempty"`
+
+	// 支払期限日(RFC 3339 format)
+	// Format: date-time
+	BillingDueDate strfmt.DateTime `json:"billingDueDate,omitempty"`
+
 	// 請求生成日(RFC 3339 format)
 	// Format: date-time
 	BillingIssueDate strfmt.DateTime `json:"billingIssueDate,omitempty"`
@@ -54,6 +62,14 @@ func (m *V1Billing) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateBillingCustomerStaffs(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateBillingDate(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateBillingDueDate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -96,6 +112,30 @@ func (m *V1Billing) validateBillingCustomerStaffs(formats strfmt.Registry) error
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V1Billing) validateBillingDate(formats strfmt.Registry) error {
+	if swag.IsZero(m.BillingDate) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("billingDate", "body", "date-time", m.BillingDate.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1Billing) validateBillingDueDate(formats strfmt.Registry) error {
+	if swag.IsZero(m.BillingDueDate) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("billingDueDate", "body", "date-time", m.BillingDueDate.String(), formats); err != nil {
+		return err
 	}
 
 	return nil

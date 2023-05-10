@@ -19,6 +19,7 @@ import (
 	"github.com/kzmake/terraform-provider-scalebase/api/client/customer_staff_service"
 	"github.com/kzmake/terraform-provider-scalebase/api/client/expected_billing_service"
 	"github.com/kzmake/terraform-provider-scalebase/api/client/product_service"
+	"github.com/kzmake/terraform-provider-scalebase/api/client/provider_service"
 	"github.com/kzmake/terraform-provider-scalebase/api/client/usage_service"
 	"github.com/kzmake/terraform-provider-scalebase/api/client/zz_health_service"
 )
@@ -74,6 +75,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *API {
 	cli.CustomerStaffService = customer_staff_service.New(transport, formats)
 	cli.ExpectedBillingService = expected_billing_service.New(transport, formats)
 	cli.ProductService = product_service.New(transport, formats)
+	cli.ProviderService = provider_service.New(transport, formats)
 	cli.UsageService = usage_service.New(transport, formats)
 	cli.ZzHealthService = zz_health_service.New(transport, formats)
 	return cli
@@ -138,6 +140,8 @@ type API struct {
 
 	ProductService product_service.ClientService
 
+	ProviderService provider_service.ClientService
+
 	UsageService usage_service.ClientService
 
 	ZzHealthService zz_health_service.ClientService
@@ -157,6 +161,7 @@ func (c *API) SetTransport(transport runtime.ClientTransport) {
 	c.CustomerStaffService.SetTransport(transport)
 	c.ExpectedBillingService.SetTransport(transport)
 	c.ProductService.SetTransport(transport)
+	c.ProviderService.SetTransport(transport)
 	c.UsageService.SetTransport(transport)
 	c.ZzHealthService.SetTransport(transport)
 }

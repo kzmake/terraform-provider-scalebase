@@ -20,10 +20,10 @@ type Publicv1Customer struct {
 	// 顧客ID
 	ID string `json:"id,omitempty"`
 
-	// 顧客名
+	// 顧客名（更新可）
 	Name string `json:"name,omitempty"`
 
-	// 顧客管理ID
+	// 顧客管理ID（更新時、顧客IDの代わりに指定可）
 	OptionalID string `json:"optionalId,omitempty"`
 }
 

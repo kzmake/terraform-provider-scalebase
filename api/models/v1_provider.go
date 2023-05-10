@@ -13,51 +13,36 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// V1BillingCustomerStaff v1 billing customer staff
+// V1Provider プロバイダー
 //
-// swagger:model v1BillingCustomerStaff
-type V1BillingCustomerStaff struct {
+// swagger:model v1Provider
+type V1Provider struct {
 
 	// 住所
-	Address *V1BillingCustomerStaffAddress `json:"address,omitempty"`
-
-	// 顧客ID
-	CustomerID string `json:"customerId,omitempty"`
-
-	// 顧客名
-	CustomerName string `json:"customerName,omitempty"`
-
-	// 部署
-	Department string `json:"department,omitempty"`
+	Address *V1ProviderAddress `json:"address,omitempty"`
 
 	// メールアドレス
 	EmailAddress string `json:"emailAddress,omitempty"`
 
-	// 担当者ID
-	ID string `json:"id,omitempty"`
-
-	// 担当者氏名
-	Name *V1BillingCustomerStaffName `json:"name,omitempty"`
+	// 企業名
+	Name string `json:"name,omitempty"`
 
 	// 電話番号
 	PhoneNumber string `json:"phoneNumber,omitempty"`
 
-	// 請求内の担当者の順序(0=主担当者,1以降=副担当者)
-	SortOrder int32 `json:"sortOrder,omitempty"`
-
-	// 肩書
-	Title string `json:"title,omitempty"`
+	// 代表氏名
+	RepresentativeName *V1ProviderName `json:"representativeName,omitempty"`
 }
 
-// Validate validates this v1 billing customer staff
-func (m *V1BillingCustomerStaff) Validate(formats strfmt.Registry) error {
+// Validate validates this v1 provider
+func (m *V1Provider) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAddress(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateName(formats); err != nil {
+	if err := m.validateRepresentativeName(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -67,7 +52,7 @@ func (m *V1BillingCustomerStaff) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *V1BillingCustomerStaff) validateAddress(formats strfmt.Registry) error {
+func (m *V1Provider) validateAddress(formats strfmt.Registry) error {
 	if swag.IsZero(m.Address) { // not required
 		return nil
 	}
@@ -86,17 +71,17 @@ func (m *V1BillingCustomerStaff) validateAddress(formats strfmt.Registry) error 
 	return nil
 }
 
-func (m *V1BillingCustomerStaff) validateName(formats strfmt.Registry) error {
-	if swag.IsZero(m.Name) { // not required
+func (m *V1Provider) validateRepresentativeName(formats strfmt.Registry) error {
+	if swag.IsZero(m.RepresentativeName) { // not required
 		return nil
 	}
 
-	if m.Name != nil {
-		if err := m.Name.Validate(formats); err != nil {
+	if m.RepresentativeName != nil {
+		if err := m.RepresentativeName.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("name")
+				return ve.ValidateName("representativeName")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("name")
+				return ce.ValidateName("representativeName")
 			}
 			return err
 		}
@@ -105,15 +90,15 @@ func (m *V1BillingCustomerStaff) validateName(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validate this v1 billing customer staff based on the context it is used
-func (m *V1BillingCustomerStaff) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validate this v1 provider based on the context it is used
+func (m *V1Provider) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.contextValidateAddress(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.contextValidateName(ctx, formats); err != nil {
+	if err := m.contextValidateRepresentativeName(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -123,7 +108,7 @@ func (m *V1BillingCustomerStaff) ContextValidate(ctx context.Context, formats st
 	return nil
 }
 
-func (m *V1BillingCustomerStaff) contextValidateAddress(ctx context.Context, formats strfmt.Registry) error {
+func (m *V1Provider) contextValidateAddress(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Address != nil {
 		if err := m.Address.ContextValidate(ctx, formats); err != nil {
@@ -139,14 +124,14 @@ func (m *V1BillingCustomerStaff) contextValidateAddress(ctx context.Context, for
 	return nil
 }
 
-func (m *V1BillingCustomerStaff) contextValidateName(ctx context.Context, formats strfmt.Registry) error {
+func (m *V1Provider) contextValidateRepresentativeName(ctx context.Context, formats strfmt.Registry) error {
 
-	if m.Name != nil {
-		if err := m.Name.ContextValidate(ctx, formats); err != nil {
+	if m.RepresentativeName != nil {
+		if err := m.RepresentativeName.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("name")
+				return ve.ValidateName("representativeName")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("name")
+				return ce.ValidateName("representativeName")
 			}
 			return err
 		}
@@ -156,7 +141,7 @@ func (m *V1BillingCustomerStaff) contextValidateName(ctx context.Context, format
 }
 
 // MarshalBinary interface implementation
-func (m *V1BillingCustomerStaff) MarshalBinary() ([]byte, error) {
+func (m *V1Provider) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -164,8 +149,8 @@ func (m *V1BillingCustomerStaff) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *V1BillingCustomerStaff) UnmarshalBinary(b []byte) error {
-	var res V1BillingCustomerStaff
+func (m *V1Provider) UnmarshalBinary(b []byte) error {
+	var res V1Provider
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}
