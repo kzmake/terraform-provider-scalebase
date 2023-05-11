@@ -184,4 +184,39 @@ func (r *customerResource) Update(ctx context.Context, req resource.UpdateReques
 }
 
 func (r *customerResource) Delete(ctx context.Context, req resource.DeleteRequest, res *resource.DeleteResponse) {
+	tflog.Debug(ctx, "Call api: DeleteCustomer")
+
+	var plan CustomerModel
+
+	// Read Terraform prior state data into the model
+	res.Diagnostics.Append(req.State.Get(ctx, &plan)...)
+
+	in := &models.V1DeleteCustomerRequest{
+		OptionalID: plan.OptionalID.ValueString(),
+	}
+
+	tflog.Debug(ctx, "  request: "+spew.Sdump(in))
+
+	out, err := r.client.CustomerService.CustomerServiceDeleteCustomer(customer_service.NewCustomerServiceDeleteCustomerParams().WithBody(in))
+	if err != nil {
+		res.Diagnostics.AddError(
+			"Error deleting customer",
+			"Could not delete customer, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
+	tflog.Debug(ctx, "  resonse: "+spew.Sdump(out.Payload))
+
+	// Return error if the HTTP status code is not 200 OK or 404 Not Found
+	if !out.IsCode(http.StatusNotFound) && !out.IsSuccess() {
+		res.Diagnostics.AddError(
+			"Unable to delete resource",
+			"An unexpected error occurred while attempting to delete the resource. "+
+				"Please retry the operation or report this issue to the provider developers.\n\n"+
+				"HTTP Status: "+string(rune(out.Code())),
+		)
+
+		return
+	}
 }
