@@ -2,6 +2,7 @@ package scalebase
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -141,6 +142,45 @@ func (r *customerResource) Read(ctx context.Context, req resource.ReadRequest, r
 }
 
 func (r *customerResource) Update(ctx context.Context, req resource.UpdateRequest, res *resource.UpdateResponse) {
+	tflog.Debug(ctx, "Call api: UpdateCustomer")
+
+	var plan CustomerModel
+	diags := req.Plan.Get(ctx, &plan)
+	res.Diagnostics.Append(diags...)
+	if res.Diagnostics.HasError() {
+		return
+	}
+
+	in := &models.Publicv1Customer{
+		OptionalID: plan.OptionalID.ValueString(),
+
+		Name: plan.Name.ValueString(),
+	}
+
+	tflog.Debug(ctx, "  request: "+spew.Sdump(in))
+
+	out, err := r.client.CustomerService.CustomerServiceUpdateCustomer(customer_service.NewCustomerServiceUpdateCustomerParams().WithCustomer(in))
+	if err != nil {
+		res.Diagnostics.AddError(
+			"Error updating customer",
+			"Could not update customer, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
+	tflog.Debug(ctx, "  resonse: "+spew.Sdump(out.Payload))
+
+	v := out.Payload.Customer
+
+	plan.OptionalID = types.StringValue(v.OptionalID)
+	plan.ID = types.StringValue(v.ID)
+	plan.Name = types.StringValue(v.Name)
+
+	diags = res.State.Set(ctx, plan)
+	res.Diagnostics.Append(diags...)
+	if res.Diagnostics.HasError() {
+		return
+	}
 }
 
 func (r *customerResource) Delete(ctx context.Context, req resource.DeleteRequest, res *resource.DeleteResponse) {
