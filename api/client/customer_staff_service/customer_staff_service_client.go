@@ -36,6 +36,8 @@ type ClientService interface {
 
 	CustomerStaffServiceGetCustomerStaff2(params *CustomerStaffServiceGetCustomerStaff2Params, opts ...ClientOption) (*CustomerStaffServiceGetCustomerStaff2OK, error)
 
+	CustomerStaffServiceUpdateCustomerStaff(params *CustomerStaffServiceUpdateCustomerStaffParams, opts ...ClientOption) (*CustomerStaffServiceUpdateCustomerStaffOK, error)
+
 	SetTransport(transport runtime.ClientTransport)
 }
 
@@ -192,6 +194,45 @@ func (a *Client) CustomerStaffServiceGetCustomerStaff2(params *CustomerStaffServ
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*CustomerStaffServiceGetCustomerStaff2Default)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CustomerStaffServiceUpdateCustomerStaff 顧客担当者の更新s
+
+顧客担当者を更新します。
+*/
+func (a *Client) CustomerStaffServiceUpdateCustomerStaff(params *CustomerStaffServiceUpdateCustomerStaffParams, opts ...ClientOption) (*CustomerStaffServiceUpdateCustomerStaffOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCustomerStaffServiceUpdateCustomerStaffParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "CustomerStaffService_UpdateCustomerStaff",
+		Method:             "PATCH",
+		PathPattern:        "/v1/customerstaff/update",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CustomerStaffServiceUpdateCustomerStaffReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CustomerStaffServiceUpdateCustomerStaffOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CustomerStaffServiceUpdateCustomerStaffDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

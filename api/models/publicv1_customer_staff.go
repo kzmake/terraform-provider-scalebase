@@ -18,31 +18,31 @@ import (
 // swagger:model publicv1CustomerStaff
 type Publicv1CustomerStaff struct {
 
-	// 住所
+	// 住所（更新可）
 	Address *Publicv1CustomerStaffAddress `json:"address,omitempty"`
 
 	// 顧客ID
 	CustomerID string `json:"customerId,omitempty"`
 
-	// 部門
+	// 部門（更新可）
 	Department string `json:"department,omitempty"`
 
-	// メールアドレス
+	// メールアドレス（更新可）
 	EmailAddress string `json:"emailAddress,omitempty"`
 
 	// 顧客担当者ID
 	ID string `json:"id,omitempty"`
 
-	// 顧客担当者名
+	// 顧客担当者名（更新可）
 	Name *Publicv1CustomerStaffName `json:"name,omitempty"`
 
-	// 顧客担当者管理ID
+	// 顧客担当者管理ID（更新時、顧客IDの代わりに指定可）
 	OptionalID string `json:"optionalId,omitempty"`
 
-	// 電話番号
+	// 電話番号（更新可）
 	PhoneNumber string `json:"phoneNumber,omitempty"`
 
-	// 肩書
+	// 肩書（更新可）
 	Title string `json:"title,omitempty"`
 }
 

@@ -17,10 +17,10 @@ import (
 // swagger:model publicv1CustomerStaffName
 type Publicv1CustomerStaffName struct {
 
-	// 顧客担当者の名
+	// 顧客担当者の名（更新可）
 	FirstName string `json:"firstName,omitempty"`
 
-	// 顧客担当者の姓
+	// 顧客担当者の姓（更新可）
 	LastName string `json:"lastName,omitempty"`
 }
 

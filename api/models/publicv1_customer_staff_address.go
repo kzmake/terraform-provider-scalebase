@@ -18,19 +18,19 @@ import (
 // swagger:model publicv1CustomerStaffAddress
 type Publicv1CustomerStaffAddress struct {
 
-	// 町名・番地
+	// 町名・番地（更新可）
 	AddressLines []string `json:"addressLines"`
 
-	// 市区郡
+	// 市区郡（更新可）
 	City string `json:"city,omitempty"`
 
-	// 国
+	// 国（更新可）
 	Country Publicv1CustomerStaffAddressCountry `json:"country,omitempty"`
 
-	// 都道府県
+	// 都道府県（更新可）
 	Prefecture Publicv1CustomerStaffAddressPrefecture `json:"prefecture,omitempty"`
 
-	// 郵便番号
+	// 郵便番号（更新可）
 	ZipCode string `json:"zipCode,omitempty"`
 }
 
