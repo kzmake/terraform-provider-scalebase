@@ -156,17 +156,17 @@ func (r *customerStaffResource) Create(ctx context.Context, req resource.CreateR
 
 	out, err := r.client.CustomerStaffService.CustomerStaffServiceCreateCustomerStaff(customer_staff_service.NewCustomerStaffServiceCreateCustomerStaffParams().WithBody(in))
 	if err != nil {
-		errRes, ok := err.(*customer_staff_service.CustomerStaffServiceCreateCustomerStaffDefault)
-		if ok {
+		if eres, ok := err.(*customer_staff_service.CustomerStaffServiceCreateCustomerStaffDefault); ok {
 			res.Diagnostics.AddError(
 				"Error creating customerStaff",
-				"Could not create customerStaff, unexpected error: "+spew.Sdump(errRes.Payload.Details),
+				"Could not create customerStaff, unexpected error: "+err.Error()+spew.Sdump(eres.Payload.Details),
+			)
+		} else {
+			res.Diagnostics.AddError(
+				"Error creating customerStaff",
+				"Could not create customerStaff, unexpected error: "+err.Error(),
 			)
 		}
-		res.Diagnostics.AddError(
-			"Error creating customerStaff",
-			"Could not create customerStaff, unexpected error: "+err.Error(),
-		)
 		return
 	}
 
