@@ -1,0 +1,13 @@
+*** api/models/protobuf_any.go	Mon May 29 18:49:00 2023
+--- api/models/protobuf_any.go	Mon May 29 18:49:43 2023
+***************
+*** 19,24 ****
+--- 19,26 ----
+  
+  	// at type
+  	AtType string `json:"@type,omitempty"`
++ 
++ 	Message string `json:"message,omitempty"`
+  }
+  
+  // Validate validates this protobuf any

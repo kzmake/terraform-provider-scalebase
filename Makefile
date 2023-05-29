@@ -19,6 +19,7 @@ lint:
 .PHONY: gen
 gen:
 	go generate ./...
+	patch -f < api/patch/protobuf_any.go.patch
 
 .PHONY: build
 build:

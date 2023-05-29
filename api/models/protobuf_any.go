@@ -19,6 +19,8 @@ type ProtobufAny struct {
 
 	// at type
 	AtType string `json:"@type,omitempty"`
+
+	Message string `json:"message,omitempty"`
 }
 
 // Validate validates this protobuf any
