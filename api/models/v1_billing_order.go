@@ -13,20 +13,20 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// ListAmendmentsRequestOrder ソート条件
+// V1BillingOrder ソート条件
 //
-// swagger:model ListAmendmentsRequestOrder
-type ListAmendmentsRequestOrder struct {
+// swagger:model v1BillingOrder
+type V1BillingOrder struct {
 
 	// direction
-	Direction ListAmendmentsRequestOrderDirection `json:"direction,omitempty"`
+	Direction V1BillingOrderDirection `json:"direction,omitempty"`
 
 	// field
-	Field ListAmendmentsRequestOrderField `json:"field,omitempty"`
+	Field V1BillingOrderField `json:"field,omitempty"`
 }
 
-// Validate validates this list amendments request order
-func (m *ListAmendmentsRequestOrder) Validate(formats strfmt.Registry) error {
+// Validate validates this v1 billing order
+func (m *V1BillingOrder) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDirection(formats); err != nil {
@@ -43,7 +43,7 @@ func (m *ListAmendmentsRequestOrder) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *ListAmendmentsRequestOrder) validateDirection(formats strfmt.Registry) error {
+func (m *V1BillingOrder) validateDirection(formats strfmt.Registry) error {
 	if swag.IsZero(m.Direction) { // not required
 		return nil
 	}
@@ -60,7 +60,7 @@ func (m *ListAmendmentsRequestOrder) validateDirection(formats strfmt.Registry) 
 	return nil
 }
 
-func (m *ListAmendmentsRequestOrder) validateField(formats strfmt.Registry) error {
+func (m *V1BillingOrder) validateField(formats strfmt.Registry) error {
 	if swag.IsZero(m.Field) { // not required
 		return nil
 	}
@@ -77,8 +77,8 @@ func (m *ListAmendmentsRequestOrder) validateField(formats strfmt.Registry) erro
 	return nil
 }
 
-// ContextValidate validate this list amendments request order based on the context it is used
-func (m *ListAmendmentsRequestOrder) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validate this v1 billing order based on the context it is used
+func (m *V1BillingOrder) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.contextValidateDirection(ctx, formats); err != nil {
@@ -95,7 +95,7 @@ func (m *ListAmendmentsRequestOrder) ContextValidate(ctx context.Context, format
 	return nil
 }
 
-func (m *ListAmendmentsRequestOrder) contextValidateDirection(ctx context.Context, formats strfmt.Registry) error {
+func (m *V1BillingOrder) contextValidateDirection(ctx context.Context, formats strfmt.Registry) error {
 
 	if err := m.Direction.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
@@ -109,7 +109,7 @@ func (m *ListAmendmentsRequestOrder) contextValidateDirection(ctx context.Contex
 	return nil
 }
 
-func (m *ListAmendmentsRequestOrder) contextValidateField(ctx context.Context, formats strfmt.Registry) error {
+func (m *V1BillingOrder) contextValidateField(ctx context.Context, formats strfmt.Registry) error {
 
 	if err := m.Field.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
@@ -124,7 +124,7 @@ func (m *ListAmendmentsRequestOrder) contextValidateField(ctx context.Context, f
 }
 
 // MarshalBinary interface implementation
-func (m *ListAmendmentsRequestOrder) MarshalBinary() ([]byte, error) {
+func (m *V1BillingOrder) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -132,8 +132,8 @@ func (m *ListAmendmentsRequestOrder) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *ListAmendmentsRequestOrder) UnmarshalBinary(b []byte) error {
-	var res ListAmendmentsRequestOrder
+func (m *V1BillingOrder) UnmarshalBinary(b []byte) error {
+	var res V1BillingOrder
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

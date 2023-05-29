@@ -13,7 +13,7 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// V1GetResourceResponse リソースのレスポンス
+// V1GetResourceResponse 対象リソースのカスタムフィールド取得のレスポンス
 //
 // swagger:model v1GetResourceResponse
 type V1GetResourceResponse struct {

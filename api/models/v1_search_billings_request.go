@@ -28,7 +28,7 @@ type V1SearchBillingsRequest struct {
 	// ```
 	// { "orderBy": [ { "field": "FIELD_BILLING_DATE", "direction": "DIRECTION_DESCENDING" } ] }
 	// ```
-	OrderBy *V1SearchBillingsRequestOrder `json:"orderBy,omitempty"`
+	OrderBy *V1BillingOrder `json:"orderBy,omitempty"`
 
 	// 一覧取得する最大数
 	// Required: true

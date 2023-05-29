@@ -20,9 +20,6 @@ import (
 // swagger:model v1CreateContractRequest
 type V1CreateContractRequest struct {
 
-	// カスタムフィールド
-	CustomFields []*V1CreateContractRequestCustomField `json:"customFields"`
-
 	// 顧客
 	Customer *V1CreateContractRequestCustomer `json:"customer,omitempty"`
 
@@ -38,10 +35,6 @@ type V1CreateContractRequest struct {
 func (m *V1CreateContractRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateCustomFields(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateCustomer(formats); err != nil {
 		res = append(res, err)
 	}
@@ -53,32 +46,6 @@ func (m *V1CreateContractRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *V1CreateContractRequest) validateCustomFields(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomFields) { // not required
-		return nil
-	}
-
-	for i := 0; i < len(m.CustomFields); i++ {
-		if swag.IsZero(m.CustomFields[i]) { // not required
-			continue
-		}
-
-		if m.CustomFields[i] != nil {
-			if err := m.CustomFields[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("customFields" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("customFields" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
 	return nil
 }
 
@@ -132,10 +99,6 @@ func (m *V1CreateContractRequest) validateMainItems(formats strfmt.Registry) err
 func (m *V1CreateContractRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.contextValidateCustomFields(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.contextValidateCustomer(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -147,26 +110,6 @@ func (m *V1CreateContractRequest) ContextValidate(ctx context.Context, formats s
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *V1CreateContractRequest) contextValidateCustomFields(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.CustomFields); i++ {
-
-		if m.CustomFields[i] != nil {
-			if err := m.CustomFields[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("customFields" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("customFields" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
 	return nil
 }
 

@@ -11,26 +11,29 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
-// V1CustomFieldMaster カスタムフィールドマスター
+// V1ResourceIdentifier リソースの識別子
 //
-// swagger:model v1CustomFieldMaster
-type V1CustomFieldMaster struct {
+// swagger:model v1ResourceIdentifier
+type V1ResourceIdentifier struct {
 
-	// カスタムフィールドマスターID
-	ID string `json:"id,omitempty"`
+	// リソースID
+	// Required: true
+	ID *string `json:"id"`
 
-	// カスタムフィールドマスタ名
-	Name string `json:"name,omitempty"`
-
-	// カスタムフィールドタイプ
-	Type CustomFieldMasterFieldType `json:"type,omitempty"`
+	// type
+	Type V1ResourceIdentifierType `json:"type,omitempty"`
 }
 
-// Validate validates this v1 custom field master
-func (m *V1CustomFieldMaster) Validate(formats strfmt.Registry) error {
+// Validate validates this v1 resource identifier
+func (m *V1ResourceIdentifier) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateID(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateType(formats); err != nil {
 		res = append(res, err)
@@ -42,7 +45,16 @@ func (m *V1CustomFieldMaster) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *V1CustomFieldMaster) validateType(formats strfmt.Registry) error {
+func (m *V1ResourceIdentifier) validateID(formats strfmt.Registry) error {
+
+	if err := validate.Required("id", "body", m.ID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1ResourceIdentifier) validateType(formats strfmt.Registry) error {
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -59,8 +71,8 @@ func (m *V1CustomFieldMaster) validateType(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validate this v1 custom field master based on the context it is used
-func (m *V1CustomFieldMaster) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validate this v1 resource identifier based on the context it is used
+func (m *V1ResourceIdentifier) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.contextValidateType(ctx, formats); err != nil {
@@ -73,7 +85,7 @@ func (m *V1CustomFieldMaster) ContextValidate(ctx context.Context, formats strfm
 	return nil
 }
 
-func (m *V1CustomFieldMaster) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
+func (m *V1ResourceIdentifier) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
 
 	if err := m.Type.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
@@ -88,7 +100,7 @@ func (m *V1CustomFieldMaster) contextValidateType(ctx context.Context, formats s
 }
 
 // MarshalBinary interface implementation
-func (m *V1CustomFieldMaster) MarshalBinary() ([]byte, error) {
+func (m *V1ResourceIdentifier) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -96,8 +108,8 @@ func (m *V1CustomFieldMaster) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *V1CustomFieldMaster) UnmarshalBinary(b []byte) error {
-	var res V1CustomFieldMaster
+func (m *V1ResourceIdentifier) UnmarshalBinary(b []byte) error {
+	var res V1ResourceIdentifier
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

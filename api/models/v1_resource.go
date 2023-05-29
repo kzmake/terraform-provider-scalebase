@@ -7,30 +7,139 @@ package models
 
 import (
 	"context"
+	"strconv"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
-// V1Resource カスタムフィールドマスター
+// V1Resource リソース
 //
 // swagger:model v1Resource
 type V1Resource struct {
 
 	// カスタムフィールド
-	CustomFields map[string]string `json:"customFields,omitempty"`
+	CustomFields []*Publicv1CustomField `json:"customFields"`
 
-	// リソースID
-	ID string `json:"id,omitempty"`
+	// リソースの識別子
+	ID *V1ResourceIdentifier `json:"id,omitempty"`
 }
 
 // Validate validates this v1 resource
 func (m *V1Resource) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateCustomFields(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this v1 resource based on context it is used
+func (m *V1Resource) validateCustomFields(formats strfmt.Registry) error {
+	if swag.IsZero(m.CustomFields) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.CustomFields); i++ {
+		if swag.IsZero(m.CustomFields[i]) { // not required
+			continue
+		}
+
+		if m.CustomFields[i] != nil {
+			if err := m.CustomFields[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("customFields" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("customFields" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1Resource) validateID(formats strfmt.Registry) error {
+	if swag.IsZero(m.ID) { // not required
+		return nil
+	}
+
+	if m.ID != nil {
+		if err := m.ID.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("id")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("id")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 resource based on the context it is used
 func (m *V1Resource) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCustomFields(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateID(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1Resource) contextValidateCustomFields(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.CustomFields); i++ {
+
+		if m.CustomFields[i] != nil {
+			if err := m.CustomFields[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("customFields" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("customFields" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1Resource) contextValidateID(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ID != nil {
+		if err := m.ID.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("id")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("id")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
