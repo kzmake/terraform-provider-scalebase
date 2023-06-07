@@ -36,6 +36,8 @@ type ClientService interface {
 
 	CustomFieldServiceListCustomFieldMasters2(params *CustomFieldServiceListCustomFieldMasters2Params, opts ...ClientOption) (*CustomFieldServiceListCustomFieldMasters2OK, error)
 
+	CustomFieldServiceUpdateResource(params *CustomFieldServiceUpdateResourceParams, opts ...ClientOption) (*CustomFieldServiceUpdateResourceOK, error)
+
 	SetTransport(transport runtime.ClientTransport)
 }
 
@@ -192,6 +194,45 @@ func (a *Client) CustomFieldServiceListCustomFieldMasters2(params *CustomFieldSe
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*CustomFieldServiceListCustomFieldMasters2Default)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CustomFieldServiceUpdateResource カスタムフィールド更新s
+
+カスタムフィールドの更新を行います。
+*/
+func (a *Client) CustomFieldServiceUpdateResource(params *CustomFieldServiceUpdateResourceParams, opts ...ClientOption) (*CustomFieldServiceUpdateResourceOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCustomFieldServiceUpdateResourceParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "CustomFieldService_UpdateResource",
+		Method:             "PATCH",
+		PathPattern:        "/v1/customfield/resource/update",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CustomFieldServiceUpdateResourceReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CustomFieldServiceUpdateResourceOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CustomFieldServiceUpdateResourceDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

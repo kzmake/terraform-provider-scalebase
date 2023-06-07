@@ -36,6 +36,10 @@ type ClientService interface {
 
 	BillingServiceListBillings2(params *BillingServiceListBillings2Params, opts ...ClientOption) (*BillingServiceListBillings2OK, error)
 
+	BillingServiceListBillingsByContract(params *BillingServiceListBillingsByContractParams, opts ...ClientOption) (*BillingServiceListBillingsByContractOK, error)
+
+	BillingServiceListBillingsByContract2(params *BillingServiceListBillingsByContract2Params, opts ...ClientOption) (*BillingServiceListBillingsByContract2OK, error)
+
 	BillingServiceSearchBillings(params *BillingServiceSearchBillingsParams, opts ...ClientOption) (*BillingServiceSearchBillingsOK, error)
 
 	BillingServiceSearchBillings2(params *BillingServiceSearchBillings2Params, opts ...ClientOption) (*BillingServiceSearchBillings2OK, error)
@@ -196,6 +200,84 @@ func (a *Client) BillingServiceListBillings2(params *BillingServiceListBillings2
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*BillingServiceListBillings2Default)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+BillingServiceListBillingsByContract 契約に紐づく請求の一覧取得s
+
+指定された顧客に紐づく請求の一覧を取得します。
+*/
+func (a *Client) BillingServiceListBillingsByContract(params *BillingServiceListBillingsByContractParams, opts ...ClientOption) (*BillingServiceListBillingsByContractOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewBillingServiceListBillingsByContractParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "BillingService_ListBillingsByContract",
+		Method:             "POST",
+		PathPattern:        "/v1/billing/listbycontract",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &BillingServiceListBillingsByContractReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*BillingServiceListBillingsByContractOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*BillingServiceListBillingsByContractDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+BillingServiceListBillingsByContract2 契約に紐づく請求の一覧取得s
+
+指定された顧客に紐づく請求の一覧を取得します。
+*/
+func (a *Client) BillingServiceListBillingsByContract2(params *BillingServiceListBillingsByContract2Params, opts ...ClientOption) (*BillingServiceListBillingsByContract2OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewBillingServiceListBillingsByContract2Params()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "BillingService_ListBillingsByContract2",
+		Method:             "GET",
+		PathPattern:        "/v1/billing/listbycontract",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &BillingServiceListBillingsByContract2Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*BillingServiceListBillingsByContract2OK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*BillingServiceListBillingsByContract2Default)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

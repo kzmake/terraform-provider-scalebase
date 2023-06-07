@@ -18,6 +18,12 @@ import (
 // swagger:model v1CustomFieldMaster
 type V1CustomFieldMaster struct {
 
+	// カスタムフィールドデータタイプ
+	DataType V1CustomFieldMasterDataType `json:"dataType,omitempty"`
+
+	// カスタムフィールドタイプ
+	FieldType V1CustomFieldMasterFieldType `json:"fieldType,omitempty"`
+
 	// カスタムフィールドマスターID
 	ID string `json:"id,omitempty"`
 
@@ -25,12 +31,21 @@ type V1CustomFieldMaster struct {
 	Name string `json:"name,omitempty"`
 
 	// カスタムフィールドタイプ
-	Type CustomFieldMasterFieldType `json:"type,omitempty"`
+	// (DEPRECATED: field_type をお使いください)
+	Type V1CustomFieldMasterFieldType `json:"type,omitempty"`
 }
 
 // Validate validates this v1 custom field master
 func (m *V1CustomFieldMaster) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateDataType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateFieldType(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateType(formats); err != nil {
 		res = append(res, err)
@@ -39,6 +54,40 @@ func (m *V1CustomFieldMaster) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CustomFieldMaster) validateDataType(formats strfmt.Registry) error {
+	if swag.IsZero(m.DataType) { // not required
+		return nil
+	}
+
+	if err := m.DataType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("dataType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("dataType")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1CustomFieldMaster) validateFieldType(formats strfmt.Registry) error {
+	if swag.IsZero(m.FieldType) { // not required
+		return nil
+	}
+
+	if err := m.FieldType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("fieldType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("fieldType")
+		}
+		return err
+	}
+
 	return nil
 }
 
@@ -63,6 +112,14 @@ func (m *V1CustomFieldMaster) validateType(formats strfmt.Registry) error {
 func (m *V1CustomFieldMaster) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateDataType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateFieldType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateType(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -70,6 +127,34 @@ func (m *V1CustomFieldMaster) ContextValidate(ctx context.Context, formats strfm
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CustomFieldMaster) contextValidateDataType(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.DataType.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("dataType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("dataType")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1CustomFieldMaster) contextValidateFieldType(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.FieldType.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("fieldType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("fieldType")
+		}
+		return err
+	}
+
 	return nil
 }
 
