@@ -23,7 +23,7 @@ type V1Resource struct {
 	CustomFields []*Publicv1CustomField `json:"customFields"`
 
 	// リソースの識別子
-	ID *V1ResourceIdentifier `json:"id,omitempty"`
+	Srn *V1SRN `json:"srn,omitempty"`
 }
 
 // Validate validates this v1 resource
@@ -34,7 +34,7 @@ func (m *V1Resource) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateID(formats); err != nil {
+	if err := m.validateSrn(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -70,17 +70,17 @@ func (m *V1Resource) validateCustomFields(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *V1Resource) validateID(formats strfmt.Registry) error {
-	if swag.IsZero(m.ID) { // not required
+func (m *V1Resource) validateSrn(formats strfmt.Registry) error {
+	if swag.IsZero(m.Srn) { // not required
 		return nil
 	}
 
-	if m.ID != nil {
-		if err := m.ID.Validate(formats); err != nil {
+	if m.Srn != nil {
+		if err := m.Srn.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("id")
+				return ve.ValidateName("srn")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("id")
+				return ce.ValidateName("srn")
 			}
 			return err
 		}
@@ -97,7 +97,7 @@ func (m *V1Resource) ContextValidate(ctx context.Context, formats strfmt.Registr
 		res = append(res, err)
 	}
 
-	if err := m.contextValidateID(ctx, formats); err != nil {
+	if err := m.contextValidateSrn(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -127,14 +127,14 @@ func (m *V1Resource) contextValidateCustomFields(ctx context.Context, formats st
 	return nil
 }
 
-func (m *V1Resource) contextValidateID(ctx context.Context, formats strfmt.Registry) error {
+func (m *V1Resource) contextValidateSrn(ctx context.Context, formats strfmt.Registry) error {
 
-	if m.ID != nil {
-		if err := m.ID.ContextValidate(ctx, formats); err != nil {
+	if m.Srn != nil {
+		if err := m.Srn.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("id")
+				return ve.ValidateName("srn")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("id")
+				return ce.ValidateName("srn")
 			}
 			return err
 		}

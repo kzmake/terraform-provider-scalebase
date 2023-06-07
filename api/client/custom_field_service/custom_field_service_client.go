@@ -28,11 +28,93 @@ type ClientOption func(*runtime.ClientOperation)
 
 // ClientService is the interface for Client methods
 type ClientService interface {
+	CustomFieldServiceGetResource(params *CustomFieldServiceGetResourceParams, opts ...ClientOption) (*CustomFieldServiceGetResourceOK, error)
+
+	CustomFieldServiceGetResource2(params *CustomFieldServiceGetResource2Params, opts ...ClientOption) (*CustomFieldServiceGetResource2OK, error)
+
 	CustomFieldServiceListCustomFieldMasters(params *CustomFieldServiceListCustomFieldMastersParams, opts ...ClientOption) (*CustomFieldServiceListCustomFieldMastersOK, error)
 
 	CustomFieldServiceListCustomFieldMasters2(params *CustomFieldServiceListCustomFieldMasters2Params, opts ...ClientOption) (*CustomFieldServiceListCustomFieldMasters2OK, error)
 
 	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+CustomFieldServiceGetResource 対象リソースのカスタムフィールド取得s
+
+対象リソースのカスタムフィールド取得します。
+*/
+func (a *Client) CustomFieldServiceGetResource(params *CustomFieldServiceGetResourceParams, opts ...ClientOption) (*CustomFieldServiceGetResourceOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCustomFieldServiceGetResourceParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "CustomFieldService_GetResource",
+		Method:             "POST",
+		PathPattern:        "/v1/customfield/resource/get",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CustomFieldServiceGetResourceReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CustomFieldServiceGetResourceOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CustomFieldServiceGetResourceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CustomFieldServiceGetResource2 対象リソースのカスタムフィールド取得s
+
+対象リソースのカスタムフィールド取得します。
+*/
+func (a *Client) CustomFieldServiceGetResource2(params *CustomFieldServiceGetResource2Params, opts ...ClientOption) (*CustomFieldServiceGetResource2OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCustomFieldServiceGetResource2Params()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "CustomFieldService_GetResource2",
+		Method:             "GET",
+		PathPattern:        "/v1/customfield/resource/get",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CustomFieldServiceGetResource2Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CustomFieldServiceGetResource2OK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CustomFieldServiceGetResource2Default)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
 /*
