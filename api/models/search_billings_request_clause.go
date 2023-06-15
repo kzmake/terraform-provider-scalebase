@@ -105,6 +105,11 @@ func (m *SearchBillingsRequestClause) ContextValidate(ctx context.Context, forma
 func (m *SearchBillingsRequestClause) contextValidateBillingDate(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.BillingDate != nil {
+
+		if swag.IsZero(m.BillingDate) { // not required
+			return nil
+		}
+
 		if err := m.BillingDate.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("billingDate")
@@ -121,6 +126,11 @@ func (m *SearchBillingsRequestClause) contextValidateBillingDate(ctx context.Con
 func (m *SearchBillingsRequestClause) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Status != nil {
+
+		if swag.IsZero(m.Status) { // not required
+			return nil
+		}
+
 		if err := m.Status.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status")

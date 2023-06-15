@@ -97,6 +97,11 @@ func (m *V1ListAmendmentsRequest) ContextValidate(ctx context.Context, formats s
 func (m *V1ListAmendmentsRequest) contextValidateOrderBy(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.OrderBy != nil {
+
+		if swag.IsZero(m.OrderBy) { // not required
+			return nil
+		}
+
 		if err := m.OrderBy.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("orderBy")

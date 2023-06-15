@@ -72,6 +72,11 @@ func (m *V1GetResourceRequest) ContextValidate(ctx context.Context, formats strf
 func (m *V1GetResourceRequest) contextValidateSrn(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Srn != nil {
+
+		if swag.IsZero(m.Srn) { // not required
+			return nil
+		}
+
 		if err := m.Srn.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("srn")

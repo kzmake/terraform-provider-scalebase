@@ -122,6 +122,11 @@ func (m *V1CatalogItem) contextValidateCatalogChargeItems(ctx context.Context, f
 	for i := 0; i < len(m.CatalogChargeItems); i++ {
 
 		if m.CatalogChargeItems[i] != nil {
+
+			if swag.IsZero(m.CatalogChargeItems[i]) { // not required
+				return nil
+			}
+
 			if err := m.CatalogChargeItems[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("catalogChargeItems" + "." + strconv.Itoa(i))
@@ -138,6 +143,10 @@ func (m *V1CatalogItem) contextValidateCatalogChargeItems(ctx context.Context, f
 }
 
 func (m *V1CatalogItem) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Status) { // not required
+		return nil
+	}
 
 	if err := m.Status.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

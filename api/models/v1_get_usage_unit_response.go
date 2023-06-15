@@ -72,6 +72,11 @@ func (m *V1GetUsageUnitResponse) ContextValidate(ctx context.Context, formats st
 func (m *V1GetUsageUnitResponse) contextValidateUsageUnit(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.UsageUnit != nil {
+
+		if swag.IsZero(m.UsageUnit) { // not required
+			return nil
+		}
+
 		if err := m.UsageUnit.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("usageUnit")

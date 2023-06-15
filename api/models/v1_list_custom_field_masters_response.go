@@ -85,6 +85,11 @@ func (m *V1ListCustomFieldMastersResponse) contextValidateCustomFieldMasters(ctx
 	for i := 0; i < len(m.CustomFieldMasters); i++ {
 
 		if m.CustomFieldMasters[i] != nil {
+
+			if swag.IsZero(m.CustomFieldMasters[i]) { // not required
+				return nil
+			}
+
 			if err := m.CustomFieldMasters[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("customFieldMasters" + "." + strconv.Itoa(i))

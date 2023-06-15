@@ -97,6 +97,10 @@ func (m *V1BillingOrder) ContextValidate(ctx context.Context, formats strfmt.Reg
 
 func (m *V1BillingOrder) contextValidateDirection(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.Direction) { // not required
+		return nil
+	}
+
 	if err := m.Direction.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("direction")
@@ -110,6 +114,10 @@ func (m *V1BillingOrder) contextValidateDirection(ctx context.Context, formats s
 }
 
 func (m *V1BillingOrder) contextValidateField(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Field) { // not required
+		return nil
+	}
 
 	if err := m.Field.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

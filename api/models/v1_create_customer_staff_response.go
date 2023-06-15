@@ -72,6 +72,11 @@ func (m *V1CreateCustomerStaffResponse) ContextValidate(ctx context.Context, for
 func (m *V1CreateCustomerStaffResponse) contextValidateCustomerStaff(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.CustomerStaff != nil {
+
+		if swag.IsZero(m.CustomerStaff) { // not required
+			return nil
+		}
+
 		if err := m.CustomerStaff.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("customerStaff")

@@ -128,6 +128,11 @@ func (m *Publicv1Contract) contextValidateCustomFields(ctx context.Context, form
 	for i := 0; i < len(m.CustomFields); i++ {
 
 		if m.CustomFields[i] != nil {
+
+			if swag.IsZero(m.CustomFields[i]) { // not required
+				return nil
+			}
+
 			if err := m.CustomFields[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("customFields" + "." + strconv.Itoa(i))
@@ -148,6 +153,11 @@ func (m *Publicv1Contract) contextValidateMainItems(ctx context.Context, formats
 	for i := 0; i < len(m.MainItems); i++ {
 
 		if m.MainItems[i] != nil {
+
+			if swag.IsZero(m.MainItems[i]) { // not required
+				return nil
+			}
+
 			if err := m.MainItems[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("mainItems" + "." + strconv.Itoa(i))

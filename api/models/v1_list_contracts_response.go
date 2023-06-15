@@ -85,6 +85,11 @@ func (m *V1ListContractsResponse) contextValidateContracts(ctx context.Context, 
 	for i := 0; i < len(m.Contracts); i++ {
 
 		if m.Contracts[i] != nil {
+
+			if swag.IsZero(m.Contracts[i]) { // not required
+				return nil
+			}
+
 			if err := m.Contracts[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("contracts" + "." + strconv.Itoa(i))

@@ -85,6 +85,11 @@ func (m *V1ListCustomersResponse) contextValidateCustomers(ctx context.Context, 
 	for i := 0; i < len(m.Customers); i++ {
 
 		if m.Customers[i] != nil {
+
+			if swag.IsZero(m.Customers[i]) { // not required
+				return nil
+			}
+
 			if err := m.Customers[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("customers" + "." + strconv.Itoa(i))

@@ -85,6 +85,11 @@ func (m *V1ListAmendmentsResponse) contextValidateAmendments(ctx context.Context
 	for i := 0; i < len(m.Amendments); i++ {
 
 		if m.Amendments[i] != nil {
+
+			if swag.IsZero(m.Amendments[i]) { // not required
+				return nil
+			}
+
 			if err := m.Amendments[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("amendments" + "." + strconv.Itoa(i))

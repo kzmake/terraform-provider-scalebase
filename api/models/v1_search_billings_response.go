@@ -85,6 +85,11 @@ func (m *V1SearchBillingsResponse) contextValidateBillings(ctx context.Context, 
 	for i := 0; i < len(m.Billings); i++ {
 
 		if m.Billings[i] != nil {
+
+			if swag.IsZero(m.Billings[i]) { // not required
+				return nil
+			}
+
 			if err := m.Billings[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("billings" + "." + strconv.Itoa(i))

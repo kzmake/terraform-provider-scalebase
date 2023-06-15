@@ -156,6 +156,11 @@ func (m *V1CreateContractRequestOptionItem) contextValidateChargeItems(ctx conte
 	for i := 0; i < len(m.ChargeItems); i++ {
 
 		if m.ChargeItems[i] != nil {
+
+			if swag.IsZero(m.ChargeItems[i]) { // not required
+				return nil
+			}
+
 			if err := m.ChargeItems[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("chargeItems" + "." + strconv.Itoa(i))
@@ -174,6 +179,11 @@ func (m *V1CreateContractRequestOptionItem) contextValidateChargeItems(ctx conte
 func (m *V1CreateContractRequestOptionItem) contextValidateDefaultContractTerm(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.DefaultContractTerm != nil {
+
+		if swag.IsZero(m.DefaultContractTerm) { // not required
+			return nil
+		}
+
 		if err := m.DefaultContractTerm.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("defaultContractTerm")

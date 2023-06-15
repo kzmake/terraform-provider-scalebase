@@ -135,6 +135,11 @@ func (m *V1AddOptionItemRequestChargeItem) ContextValidate(ctx context.Context, 
 func (m *V1AddOptionItemRequestChargeItem) contextValidateBillingDueTiming(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.BillingDueTiming != nil {
+
+		if swag.IsZero(m.BillingDueTiming) { // not required
+			return nil
+		}
+
 		if err := m.BillingDueTiming.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("billingDueTiming")
@@ -151,6 +156,11 @@ func (m *V1AddOptionItemRequestChargeItem) contextValidateBillingDueTiming(ctx c
 func (m *V1AddOptionItemRequestChargeItem) contextValidateBillingTiming(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.BillingTiming != nil {
+
+		if swag.IsZero(m.BillingTiming) { // not required
+			return nil
+		}
+
 		if err := m.BillingTiming.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("billingTiming")

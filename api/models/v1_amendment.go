@@ -125,6 +125,10 @@ func (m *V1Amendment) ContextValidate(ctx context.Context, formats strfmt.Regist
 
 func (m *V1Amendment) contextValidateAmendmentType(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.AmendmentType) { // not required
+		return nil
+	}
+
 	if err := m.AmendmentType.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("amendmentType")

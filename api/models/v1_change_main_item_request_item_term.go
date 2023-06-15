@@ -87,6 +87,10 @@ func (m *V1ChangeMainItemRequestItemTerm) ContextValidate(ctx context.Context, f
 
 func (m *V1ChangeMainItemRequestItemTerm) contextValidateUnit(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.Unit) { // not required
+		return nil
+	}
+
 	if err := m.Unit.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("unit")

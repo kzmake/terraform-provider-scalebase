@@ -106,6 +106,10 @@ func (m *V1BillingCustomerStaffAddress) ContextValidate(ctx context.Context, for
 
 func (m *V1BillingCustomerStaffAddress) contextValidateCountry(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.Country) { // not required
+		return nil
+	}
+
 	if err := m.Country.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("country")
@@ -119,6 +123,10 @@ func (m *V1BillingCustomerStaffAddress) contextValidateCountry(ctx context.Conte
 }
 
 func (m *V1BillingCustomerStaffAddress) contextValidatePrefecture(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Prefecture) { // not required
+		return nil
+	}
 
 	if err := m.Prefecture.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

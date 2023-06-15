@@ -126,6 +126,11 @@ func (m *V1BillingCustomerStaff) ContextValidate(ctx context.Context, formats st
 func (m *V1BillingCustomerStaff) contextValidateAddress(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Address != nil {
+
+		if swag.IsZero(m.Address) { // not required
+			return nil
+		}
+
 		if err := m.Address.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("address")
@@ -142,6 +147,11 @@ func (m *V1BillingCustomerStaff) contextValidateAddress(ctx context.Context, for
 func (m *V1BillingCustomerStaff) contextValidateName(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Name != nil {
+
+		if swag.IsZero(m.Name) { // not required
+			return nil
+		}
+
 		if err := m.Name.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("name")

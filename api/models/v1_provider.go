@@ -111,6 +111,11 @@ func (m *V1Provider) ContextValidate(ctx context.Context, formats strfmt.Registr
 func (m *V1Provider) contextValidateAddress(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Address != nil {
+
+		if swag.IsZero(m.Address) { // not required
+			return nil
+		}
+
 		if err := m.Address.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("address")
@@ -127,6 +132,11 @@ func (m *V1Provider) contextValidateAddress(ctx context.Context, formats strfmt.
 func (m *V1Provider) contextValidateRepresentativeName(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.RepresentativeName != nil {
+
+		if swag.IsZero(m.RepresentativeName) { // not required
+			return nil
+		}
+
 		if err := m.RepresentativeName.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("representativeName")

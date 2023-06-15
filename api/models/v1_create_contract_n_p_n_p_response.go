@@ -72,6 +72,11 @@ func (m *V1CreateContractNPNPResponse) ContextValidate(ctx context.Context, form
 func (m *V1CreateContractNPNPResponse) contextValidateContract(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Contract != nil {
+
+		if swag.IsZero(m.Contract) { // not required
+			return nil
+		}
+
 		if err := m.Contract.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("contract")

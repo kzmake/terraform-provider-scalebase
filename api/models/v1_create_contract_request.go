@@ -116,6 +116,11 @@ func (m *V1CreateContractRequest) ContextValidate(ctx context.Context, formats s
 func (m *V1CreateContractRequest) contextValidateCustomer(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Customer != nil {
+
+		if swag.IsZero(m.Customer) { // not required
+			return nil
+		}
+
 		if err := m.Customer.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("customer")
@@ -134,6 +139,11 @@ func (m *V1CreateContractRequest) contextValidateMainItems(ctx context.Context, 
 	for i := 0; i < len(m.MainItems); i++ {
 
 		if m.MainItems[i] != nil {
+
+			if swag.IsZero(m.MainItems[i]) { // not required
+				return nil
+			}
+
 			if err := m.MainItems[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("mainItems" + "." + strconv.Itoa(i))

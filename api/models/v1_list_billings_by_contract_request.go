@@ -117,6 +117,11 @@ func (m *V1ListBillingsByContractRequest) ContextValidate(ctx context.Context, f
 func (m *V1ListBillingsByContractRequest) contextValidateOrderBy(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.OrderBy != nil {
+
+		if swag.IsZero(m.OrderBy) { // not required
+			return nil
+		}
+
 		if err := m.OrderBy.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("orderBy")

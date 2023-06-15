@@ -85,6 +85,11 @@ func (m *V1ListExpectedBillingsByContractResponse) contextValidateExpectedBillin
 	for i := 0; i < len(m.ExpectedBillings); i++ {
 
 		if m.ExpectedBillings[i] != nil {
+
+			if swag.IsZero(m.ExpectedBillings[i]) { // not required
+				return nil
+			}
+
 			if err := m.ExpectedBillings[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("expectedBillings" + "." + strconv.Itoa(i))

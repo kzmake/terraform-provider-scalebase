@@ -72,6 +72,10 @@ func (m *V1ChangeQuantityRequestDailyRate) ContextValidate(ctx context.Context, 
 
 func (m *V1ChangeQuantityRequestDailyRate) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.Type) { // not required
+		return nil
+	}
+
 	if err := m.Type.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("type")

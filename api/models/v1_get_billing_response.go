@@ -72,6 +72,11 @@ func (m *V1GetBillingResponse) ContextValidate(ctx context.Context, formats strf
 func (m *V1GetBillingResponse) contextValidateBilling(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Billing != nil {
+
+		if swag.IsZero(m.Billing) { // not required
+			return nil
+		}
+
 		if err := m.Billing.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("billing")

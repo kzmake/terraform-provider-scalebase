@@ -132,6 +132,11 @@ func (m *V1AddOptionItemRequest) ContextValidate(ctx context.Context, formats st
 func (m *V1AddOptionItemRequest) contextValidateItem(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Item != nil {
+
+		if swag.IsZero(m.Item) { // not required
+			return nil
+		}
+
 		if err := m.Item.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("item")

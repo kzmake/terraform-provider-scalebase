@@ -132,6 +132,10 @@ func (m *V1CustomFieldMaster) ContextValidate(ctx context.Context, formats strfm
 
 func (m *V1CustomFieldMaster) contextValidateDataType(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.DataType) { // not required
+		return nil
+	}
+
 	if err := m.DataType.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("dataType")
@@ -146,6 +150,10 @@ func (m *V1CustomFieldMaster) contextValidateDataType(ctx context.Context, forma
 
 func (m *V1CustomFieldMaster) contextValidateFieldType(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.FieldType) { // not required
+		return nil
+	}
+
 	if err := m.FieldType.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("fieldType")
@@ -159,6 +167,10 @@ func (m *V1CustomFieldMaster) contextValidateFieldType(ctx context.Context, form
 }
 
 func (m *V1CustomFieldMaster) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Type) { // not required
+		return nil
+	}
 
 	if err := m.Type.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

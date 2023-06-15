@@ -87,6 +87,10 @@ func (m *PricingModelPerUnitOption) ContextValidate(ctx context.Context, formats
 
 func (m *PricingModelPerUnitOption) contextValidatePayPerUse(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.PayPerUse) { // not required
+		return nil
+	}
+
 	if err := m.PayPerUse.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("payPerUse")

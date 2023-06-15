@@ -140,6 +140,11 @@ func (m *V1SearchBillingsRequest) contextValidateFilter(ctx context.Context, for
 	for i := 0; i < len(m.Filter); i++ {
 
 		if m.Filter[i] != nil {
+
+			if swag.IsZero(m.Filter[i]) { // not required
+				return nil
+			}
+
 			if err := m.Filter[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("filter" + "." + strconv.Itoa(i))
@@ -158,6 +163,11 @@ func (m *V1SearchBillingsRequest) contextValidateFilter(ctx context.Context, for
 func (m *V1SearchBillingsRequest) contextValidateOrderBy(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.OrderBy != nil {
+
+		if swag.IsZero(m.OrderBy) { // not required
+			return nil
+		}
+
 		if err := m.OrderBy.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("orderBy")

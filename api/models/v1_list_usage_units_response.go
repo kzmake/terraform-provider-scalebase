@@ -85,6 +85,11 @@ func (m *V1ListUsageUnitsResponse) contextValidateUsageUnits(ctx context.Context
 	for i := 0; i < len(m.UsageUnits); i++ {
 
 		if m.UsageUnits[i] != nil {
+
+			if swag.IsZero(m.UsageUnits[i]) { // not required
+				return nil
+			}
+
 			if err := m.UsageUnits[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("usageUnits" + "." + strconv.Itoa(i))

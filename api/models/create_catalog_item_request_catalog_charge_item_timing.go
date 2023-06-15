@@ -115,6 +115,10 @@ func (m *CreateCatalogItemRequestCatalogChargeItemTiming) ContextValidate(ctx co
 
 func (m *CreateCatalogItemRequestCatalogChargeItemTiming) contextValidateMonthlyOption(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.MonthlyOption) { // not required
+		return nil
+	}
+
 	if err := m.MonthlyOption.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("monthlyOption")
@@ -128,6 +132,10 @@ func (m *CreateCatalogItemRequestCatalogChargeItemTiming) contextValidateMonthly
 }
 
 func (m *CreateCatalogItemRequestCatalogChargeItemTiming) contextValidateUnit(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Unit) { // not required
+		return nil
+	}
 
 	if err := m.Unit.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

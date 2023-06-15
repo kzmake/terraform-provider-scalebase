@@ -85,6 +85,11 @@ func (m *V1ListCatalogItemsResponse) contextValidateCatalogItems(ctx context.Con
 	for i := 0; i < len(m.CatalogItems); i++ {
 
 		if m.CatalogItems[i] != nil {
+
+			if swag.IsZero(m.CatalogItems[i]) { // not required
+				return nil
+			}
+
 			if err := m.CatalogItems[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("catalogItems" + "." + strconv.Itoa(i))

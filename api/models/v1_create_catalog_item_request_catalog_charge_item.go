@@ -287,6 +287,11 @@ func (m *V1CreateCatalogItemRequestCatalogChargeItem) ContextValidate(ctx contex
 func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateBillingCycle(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.BillingCycle != nil {
+
+		if swag.IsZero(m.BillingCycle) { // not required
+			return nil
+		}
+
 		if err := m.BillingCycle.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("billingCycle")
@@ -303,6 +308,11 @@ func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateBillingCycl
 func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateBillingDueTiming(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.BillingDueTiming != nil {
+
+		if swag.IsZero(m.BillingDueTiming) { // not required
+			return nil
+		}
+
 		if err := m.BillingDueTiming.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("billingDueTiming")
@@ -319,6 +329,11 @@ func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateBillingDueT
 func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateBillingTiming(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.BillingTiming != nil {
+
+		if swag.IsZero(m.BillingTiming) { // not required
+			return nil
+		}
+
 		if err := m.BillingTiming.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("billingTiming")
@@ -335,6 +350,11 @@ func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateBillingTimi
 func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateEndDailyRate(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.EndDailyRate != nil {
+
+		if swag.IsZero(m.EndDailyRate) { // not required
+			return nil
+		}
+
 		if err := m.EndDailyRate.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("endDailyRate")
@@ -351,6 +371,11 @@ func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateEndDailyRat
 func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidatePricingModel(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.PricingModel != nil {
+
+		if swag.IsZero(m.PricingModel) { // not required
+			return nil
+		}
+
 		if err := m.PricingModel.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("pricingModel")
@@ -365,6 +390,10 @@ func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidatePricingMode
 }
 
 func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateRounding(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Rounding) { // not required
+		return nil
+	}
 
 	if err := m.Rounding.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
@@ -381,6 +410,11 @@ func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateRounding(ct
 func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateStartDailyRate(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.StartDailyRate != nil {
+
+		if swag.IsZero(m.StartDailyRate) { // not required
+			return nil
+		}
+
 		if err := m.StartDailyRate.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("startDailyRate")
@@ -395,6 +429,10 @@ func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateStartDailyR
 }
 
 func (m *V1CreateCatalogItemRequestCatalogChargeItem) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Type) { // not required
+		return nil
+	}
 
 	if err := m.Type.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

@@ -112,6 +112,11 @@ func (m *V1Resource) contextValidateCustomFields(ctx context.Context, formats st
 	for i := 0; i < len(m.CustomFields); i++ {
 
 		if m.CustomFields[i] != nil {
+
+			if swag.IsZero(m.CustomFields[i]) { // not required
+				return nil
+			}
+
 			if err := m.CustomFields[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("customFields" + "." + strconv.Itoa(i))
@@ -130,6 +135,11 @@ func (m *V1Resource) contextValidateCustomFields(ctx context.Context, formats st
 func (m *V1Resource) contextValidateSrn(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Srn != nil {
+
+		if swag.IsZero(m.Srn) { // not required
+			return nil
+		}
+
 		if err := m.Srn.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("srn")

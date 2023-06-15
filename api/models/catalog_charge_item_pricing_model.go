@@ -130,6 +130,11 @@ func (m *CatalogChargeItemPricingModel) ContextValidate(ctx context.Context, for
 func (m *CatalogChargeItemPricingModel) contextValidateFlatFeeOption(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.FlatFeeOption != nil {
+
+		if swag.IsZero(m.FlatFeeOption) { // not required
+			return nil
+		}
+
 		if err := m.FlatFeeOption.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("flatFeeOption")
@@ -146,6 +151,11 @@ func (m *CatalogChargeItemPricingModel) contextValidateFlatFeeOption(ctx context
 func (m *CatalogChargeItemPricingModel) contextValidatePerUnitOption(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.PerUnitOption != nil {
+
+		if swag.IsZero(m.PerUnitOption) { // not required
+			return nil
+		}
+
 		if err := m.PerUnitOption.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("perUnitOption")
@@ -160,6 +170,10 @@ func (m *CatalogChargeItemPricingModel) contextValidatePerUnitOption(ctx context
 }
 
 func (m *CatalogChargeItemPricingModel) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Type) { // not required
+		return nil
+	}
 
 	if err := m.Type.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

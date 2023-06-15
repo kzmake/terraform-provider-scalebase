@@ -223,6 +223,11 @@ func (m *V1Billing) contextValidateBillingCustomerStaffs(ctx context.Context, fo
 	for i := 0; i < len(m.BillingCustomerStaffs); i++ {
 
 		if m.BillingCustomerStaffs[i] != nil {
+
+			if swag.IsZero(m.BillingCustomerStaffs[i]) { // not required
+				return nil
+			}
+
 			if err := m.BillingCustomerStaffs[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("billingCustomerStaffs" + "." + strconv.Itoa(i))
@@ -243,6 +248,11 @@ func (m *V1Billing) contextValidateBillingItems(ctx context.Context, formats str
 	for i := 0; i < len(m.BillingItems); i++ {
 
 		if m.BillingItems[i] != nil {
+
+			if swag.IsZero(m.BillingItems[i]) { // not required
+				return nil
+			}
+
 			if err := m.BillingItems[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("billingItems" + "." + strconv.Itoa(i))
@@ -259,6 +269,10 @@ func (m *V1Billing) contextValidateBillingItems(ctx context.Context, formats str
 }
 
 func (m *V1Billing) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Status) { // not required
+		return nil
+	}
 
 	if err := m.Status.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
