@@ -21,7 +21,7 @@ type Publicv1CustomField struct {
 
 	// 日付型の値(RFC 3339 format)
 	// Format: date-time
-	Date strfmt.DateTime `json:"date,omitempty"`
+	Date *strfmt.DateTime `json:"date,omitempty"`
 
 	// カスタムフィールドマスターID
 	MasterID string `json:"masterId,omitempty"`

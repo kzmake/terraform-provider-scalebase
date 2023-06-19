@@ -1,0 +1,19 @@
+*** api/models/publicv1_custom_field.go	Mon Jun 19 20:52:04 2023
+--- api/models/publicv1_custom_field.go	Mon Jun 19 15:43:18 2023
+***************
+*** 21,27 ****
+  
+  	// 日付型の値(RFC 3339 format)
+  	// Format: date-time
+! 	Date strfmt.DateTime `json:"date,omitempty"`
+  
+  	// カスタムフィールドマスターID
+  	MasterID string `json:"masterId,omitempty"`
+--- 21,27 ----
+  
+  	// 日付型の値(RFC 3339 format)
+  	// Format: date-time
+! 	Date *strfmt.DateTime `json:"date,omitempty"`
+  
+  	// カスタムフィールドマスターID
+  	MasterID string `json:"masterId,omitempty"`
