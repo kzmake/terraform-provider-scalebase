@@ -20,6 +20,7 @@ lint:
 gen:
 	go generate ./...
 	patch -f < api/patch/protobuf_any.go.patch
+	patch -f < api/patch/publicv1_custom_field.go.patch
 
 .PHONY: build
 build:
