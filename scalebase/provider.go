@@ -143,6 +143,7 @@ func (p *scalebaseProvider) DataSources(_ context.Context) []func() datasource.D
 		NewProductDataSource,
 		NewCatalogItemDataSource,
 		NewCustomerDataSource,
+		NewContractDataSource,
 		NewCustomFieldMasterDataSource,
 	}
 }
