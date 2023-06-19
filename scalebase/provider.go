@@ -143,6 +143,7 @@ func (p *scalebaseProvider) DataSources(_ context.Context) []func() datasource.D
 		NewProductDataSource,
 		NewCatalogItemDataSource,
 		NewCustomerDataSource,
+		NewCustomFieldMasterDataSource,
 	}
 }
 
@@ -150,5 +151,6 @@ func (p *scalebaseProvider) Resources(_ context.Context) []func() resource.Resou
 	return []func() resource.Resource{
 		NewCustomerResource,
 		NewCustomerStaffResource,
+		NewResourceResource,
 	}
 }
