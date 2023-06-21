@@ -1,0 +1,7 @@
+リソース管理ID,リソース種別,文字列,選択リスト,日付
+example_customer_1111,customer,,せんたく１,2000-01-01
+example_customer_2222,customer,,,2000-01-02
+example_customer_3333,customer,,せんたく２,
+example_contract_1111,contract,,せんたく１,2000-01-01
+example_contract_2222,contract,,,2000-01-02
+example_contract_3333,contract,,せんたく２,
