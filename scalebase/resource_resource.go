@@ -101,7 +101,7 @@ func (r *resourceResource) Create(ctx context.Context, req resource.CreateReques
 	newCustomFields := []*models.Publicv1CustomField{}
 	for _, c := range plan.CustomFields {
 		var date *strfmt.DateTime
-		if s := c.Date.ValueStringPointer(); s != nil {
+		if s := c.Date.ValueStringPointer(); s != nil && *s != "" {
 			dt, _ := time.Parse(time.DateOnly, *s)
 			sdt := strfmt.DateTime(dt.UTC().Add(9 * time.Hour))
 			date = &sdt
@@ -255,7 +255,7 @@ func (r *resourceResource) Update(ctx context.Context, req resource.UpdateReques
 	newCustomFields := []*models.Publicv1CustomField{}
 	for _, c := range plan.CustomFields {
 		var date *strfmt.DateTime
-		if s := c.Date.ValueStringPointer(); s != nil {
+		if s := c.Date.ValueStringPointer(); s != nil && *s != "" {
 			dt, _ := time.Parse(time.DateOnly, *s)
 			sdt := strfmt.DateTime(dt.UTC().Add(9 * time.Hour))
 			date = &sdt
